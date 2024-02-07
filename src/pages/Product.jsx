@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Annoucement from "../components/Annoucement";
 import NewsLatter from "../components/NewsLatter";
@@ -6,6 +6,9 @@ import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Add, Remove } from "@mui/icons-material";
 import { mobile } from "../responsive";
+import { useLocation } from "react-router-dom";
+import { publicRequest } from "../requestMethods";
+import axios from "axios";
 
 const Container = styled.div``;
 const Wrapper = styled.div`
@@ -74,7 +77,7 @@ const AddContainer = styled.div`
   justify-content: space-between;
   width: 50%;
 
-  ${mobile({ width: "100%", marginTop: "20px"})}
+  ${mobile({ width: "100%", marginTop: "20px" })}
 `;
 
 const AmountContainer = styled.div`
@@ -106,22 +109,37 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const location = useLocation();
+  const productId = location.pathname.split("/")[2];
+
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/api/products/find/" + productId);
+
+      } catch (error) {
+        console.log(error);
+
+       
+      }
+    };
+    getProduct();
+  }, [productId]);
+
   return (
     <Container>
       <Navbar />
       <Annoucement />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+          <Image src={product.img} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
-          <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, turpis vel hendrerit interdum, dui ligula ultricies
-            dolor, a rhoncus dui urna et arcu.
-          </Desc>
-          <Price>$ 20</Price>
+          <Title>{product.title}</Title>
+          <Desc>{product.desc}</Desc>
+          <Price>{product.price}</Price>
           <FilterContainer>
             <Filter>
               <FilterTitle>Color</FilterTitle>
