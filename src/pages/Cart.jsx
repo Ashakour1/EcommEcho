@@ -8,7 +8,9 @@ import { mobile } from "../responsive";
 import { useSelector } from "react-redux";
 import StripeCheckout from "react-stripe-checkout";
 import { userRequest } from "../requestMethods";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
+
+
 
 const key =
   "pk_test_51Lm40HG623nLUt8O6iw2Xl7qcYKnrBQKdQNxsA1zNyssn4LMcMS2EcP4ohkJgvLQ4dRb2rcVYpkyv0VgyJVLodj800gJLJhoLd";
@@ -148,7 +150,7 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [stripeToken, setStripeToken] = useState(null);
 
-  const navigate = useNavigate();
+  const history = useNavigate();
 
   const OnToken = (token) => {
     setStripeToken(token);
@@ -161,13 +163,13 @@ const Cart = () => {
           tokenId: stripeToken.id,
           amount: 100,
         });
-        navigate("/success", { data: res.data });
+        history("/success", { replace: true });
       } catch (error) {
         console.log(error);
       }
     };
     stripeToken && makeRequest();
-  }, [stripeToken, cart.total, navigate]);
+  }, [stripeToken, cart.total, history]);
 
   return (
     <Container>

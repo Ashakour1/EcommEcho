@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Product from "./pages/Product";
 import Register from "./pages/Register";
 import { BrowserRouter as Router, Route, Routes ,  Navigate} from "react-router-dom";
+import Success from "./pages/Success";
 
 function App() {
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/products/:category" element={<ProductList />} />
         <Route path="/product/:id" element={<Product />} />
         <Route path="/cart/" element={<Cart />} />
+        <Route path="/success" element={<Success />} />
         
         <Route path="/Register" element={<Register />} />
         <Route path="/Login" element= {
